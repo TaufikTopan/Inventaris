@@ -1,17 +1,15 @@
 <div class="row">
-    <h2>Tambah Barang</h2>
-    <hr>
     <div class="col-lg-4">
     <div class="panel panel-primary">
-        <div class="panel-heading">Tambah Barang Inventaris</div>
+        <div class="panel-heading">Tambah Inventaris</div>
             <div class="panel-body">
                     <form action="">
                         <div class="form-group">
-                            <label for="">Kode Barang</label>
+                            <label for="">Kode Inventaris</label>
                             <input type="text" class="form-control" placeholder="Masukkan Kode Barang">
                         </div>
                         <div class="form-group">
-                            <label for="">Nama Barang</label>
+                            <label for="">Nama Inventaris</label>
                             <input type="text" class="form-control" placeholder="Masukkan Nama Barang">
                         </div>
                         <div class="form-group">

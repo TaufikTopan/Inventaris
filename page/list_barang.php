@@ -1,4 +1,4 @@
-<h2><center>DAFTAR INVENTARIS</center></h2>
+<h2><center>Daftar Inventaris</center></h2>
 <hr>
 <a href="?p=tambah_barang" class=" btn btn-md btn-primary"><span class="glyphicon glyphicon-plus"></span></a>
 <form class="navbar-form navbar-right" role="search">
@@ -8,7 +8,7 @@
         <button type="submit" class="btn btn-default">Cari</button>
       </form>
 <br><br>
-<table class="table table-bordered">
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>No</th>
