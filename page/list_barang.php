@@ -1,9 +1,10 @@
 <h2><center>Daftar Inventaris</center></h2>
 <hr>
 <a href="?p=tambah_barang" class=" btn btn-md btn-primary"><span class="glyphicon glyphicon-plus"></span></a>
-<form class="navbar-form navbar-right" role="search">
+<form class="navbar-form navbar-right" role="search" method="get">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Cari Barang">
+          <input type="hidden" name="p" value="list_barang">
+          <input type="text" class="form-control" placeholder="Cari Barang" name="cari">
         </div>
         <button type="submit" class="btn btn-default">Cari</button>
       </form>
@@ -23,7 +24,51 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
+      <?php
+        @$cari = $_GET['cari'];
+        $q_cari = "";
+        if (!empty($cari)) {
+          $q_cari .= "and nama like '%".$cari. "%'";
+        }
+        $pembagian = 5;
+        $page = isset($_GET['halaman']) ? (INT)$_GET['halaman'] : 1;
+        $mulai = $page > 1 ? $page * $pembagian - $pembagian : 0;
+        $sql = "SELECT * FROM inventaris_baru LEFT JOIN ruang_baru ON ruang_baru.id_ruang = inventaris_baru.id_ruang WHERE 1=1 $q_cari LIMIT $mulai, $pembagian";
+        $query = mysqli_query($koneksi, $sql);
+        $cek = mysqli_num_rows($query);
+        // echo $cek;
+
+        // Mencari Total Halaman
+        $sql_total = "SELECT * FROM inventaris_baru";
+        $q_total = mysqli_query($koneksi, $sql_total);
+        $total = mysqli_num_rows($q_total);
+
+        $jumlahHalaman = ceil($total / $pembagian);
+
+        if($cek > 0){
+          $no = $mulai + 1;
+          while ($data = mysqli_fetch_array($query)) {
+            $tgl = $data['tanggal_register'];
+            ?>
+              <tr>
+                <td><?= $no++ ?></td>
+                <td><?= $data['kode_inventaris'] ?></td>
+                <td><?= $data['nama'] ?></td>
+                <td><?= $data['kondisi'] ?></td>
+                <td><?= $data['jumlah'] ?></td>
+                <td><?= $data['nama_ruang'] ?></td>
+                <td><?= date ("d-m-y", strtotime($tgl)) ?></td>
+                <td><?= $data['keterangan'] ?></td>
+                <td>
+                  <a href="?p=edit_barang" class="btn btn-md btn-primary"><span class="glyphicon glyphicon-edit"></span></a>
+                  <a href="" class="btn btn-md btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+              </tr>
+            <?php
+          }
+        }
+      ?>
+        <!-- <tr>
             <td>1</td>
             <td>L001</td>
             <td>Laptop</td>
@@ -36,28 +81,37 @@
                 <a href="?p=edit_barang" class="btn btn-md btn-primary"><span class="glyphicon glyphicon-edit"></span></a>
                 <a href="" class="btn btn-md btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
             </td>
-        </tr>
+        </tr> -->
     </tbody>
 </table>
 
 <div class="float-left">
-    Jumlah : 1
+    Jumlah : <?= $total ?>
 </div>
 <div class="" style="float:right">
 <nav>
   <ul class="pagination">
     <li>
-      <a href="#" aria-label="Previous">
+      <a href="?p=list_barang&halaman=<?= $page - 1 ?>"" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    <li><a href="#">1</a></li>
+    <?php
+      for ($i=1; $i <= $jumlahHalaman; $i++) { 
+        ?>
+          <li class="<?= (@$i == @$_GET['halaman'] ? 'active' : '') ?>">
+            <a href="?p=list_barang&halaman=<?= $i ?>"><?= $i ?></a>
+          </li>
+        <?php
+      }
+    ?>
+    <!-- <li><a href="#">1</a></li>
     <li><a href="#">2</a></li>
     <li><a href="#">3</a></li>
     <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
+    <li><a href="#">5</a></li> -->
     <li>
-      <a href="#" aria-label="Next">
+      <a href="?p=list_barang&halaman=<?= $page + 1 ?>" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
