@@ -73,7 +73,7 @@
             <?php
               if(@$level == "3"){
                 ?>
-                  <li><a href="?p=peminjaman">Peminjaman</a></li>
+                  <li><a href="?p=peminjaman1">Peminjaman</a></li>
                 <?php
               }
             ?>
@@ -126,6 +126,10 @@
           include "page/peminjaman.php";
           break;
 
+        case 'peminjaman1':
+          include "page/peminjaman1.php";
+          break;
+
         case 'pengembalian':
           include "page/pengembalian.php";
           break;
@@ -140,6 +144,10 @@
 
         case 'home':
           include "page/home.php";
+          break;
+
+        case 'hapus':
+          include "page/hapus_barang.php";
           break;
         
         default:
@@ -163,3 +171,10 @@
     <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
+<script type="text/javascript">
+  $(document).on('click', '#cetak', function(){
+    var tgl_awal = $("#tgl_awal").val();
+    var tgl_sampai = $("#tgl_sampai").val();
+    window.open('page/cetak_laporan.php?tgl_awal='+tgl_awal+"&tgl_sampai="+tgl_sampai, '_blank');
+  });
+</script>

@@ -33,7 +33,7 @@
         $pembagian = 5;
         $page = isset($_GET['halaman']) ? (INT)$_GET['halaman'] : 1;
         $mulai = $page > 1 ? $page * $pembagian - $pembagian : 0;
-        $sql = "SELECT * FROM inventaris_baru LEFT JOIN ruang_baru ON ruang_baru.id_ruang = inventaris_baru.id_ruang WHERE 1=1 $q_cari LIMIT $mulai, $pembagian";
+        $sql = "SELECT *, inventaris_baru.keterangan as ket FROM inventaris_baru LEFT JOIN ruang_baru ON ruang_baru.id_ruang = inventaris_baru.id_ruang WHERE 1=1 $q_cari LIMIT $mulai, $pembagian";
         $query = mysqli_query($koneksi, $sql);
         $cek = mysqli_num_rows($query);
         // echo $cek;
@@ -58,10 +58,10 @@
                 <td><?= $data['jumlah'] ?></td>
                 <td><?= $data['nama_ruang'] ?></td>
                 <td><?= date ("d-m-y", strtotime($tgl)) ?></td>
-                <td><?= $data['keterangan'] ?></td>
+                <td><?= $data['ket'] ?></td>
                 <td>
-                  <a href="?p=edit_barang" class="btn btn-md btn-primary"><span class="glyphicon glyphicon-edit"></span></a>
-                  <a href="" class="btn btn-md btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                  <a href="?p=edit_barang&id_inventaris=<?= $data['id_inventaris']?>" class="btn btn-md btn-primary"><span class="glyphicon glyphicon-edit"></span></a>
+                  <a onclick="return confirm('Apakah Anda yakin untuk menghapusnya?')" href="page/hapus_barang.php?id_inventaris=<?= $data['id_inventaris']?>" class="btn btn-md btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
                 </td>
               </tr>
             <?php
